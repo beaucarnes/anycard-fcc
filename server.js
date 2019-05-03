@@ -12,11 +12,12 @@ app.use(bodyParser.json());
 app.get('/secret', (req, res) => res.sendFile(path.join(__dirname, 'secret.html')));
 
 app.post('/secret', (req, res) => {
-    MongoClient.connect(URI, (err, db) => {
+    MongoClient.connect(URI, { useNewUrlParser: true }, (err, db) => {
         if (err) {
             console.log(err);
         } else {
-            const collection = db.collection('names');
+            const dbo = db.db("mydb");
+            const collection = dbo.collection('names');
             const entry = {
                 name: req.body.name.toLowerCase(),
                 card: req.body.numer + '_of_' + req.body.suit
@@ -37,11 +38,12 @@ app.post('/secret', (req, res) => {
 app.get('/:param*', (req, res) => {
     const name = req.url.slice(1).toLowerCase();
 
-    MongoClient.connect(URI, (err, db) => {
+    MongoClient.connect(URI, { useNewUrlParser: true }, (err, db) => {
         if (err) {
             console.log(err);
         } else {
-            const collection = db.collection('names');
+            const dbo = db.db("mydb");
+            const collection = dbo.collection('names');
 
             if (name === 'deleteall') {
                 collection.remove({});
