@@ -4,9 +4,10 @@ const path = require('path')
 const bodyParser = require('body-parser');
 const mongodb = require('mongodb');
 const MongoClient = mongodb.MongoClient;
-const URI = process.env.MONGODB_URI || 'mongodb://localhost/database';
+const URI = process.env.MONGODB_URI || 'mongodb://heroku_08879xmq:hh9bico0pvib5tumb1f6vsohj@ds257054.mlab.com:57054/heroku_08879xmq';
 const PORT = process.env.PORT || 5000;
 
+app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
 
 app.get('/secret', (req, res) => res.sendFile(path.join(__dirname, 'secret.html')));
@@ -16,11 +17,12 @@ app.post('/secret', (req, res) => {
         if (err) {
             console.log(err);
         } else {
+            console.log(req.body)
             const dbo = db.db("mydb");
             const collection = dbo.collection('names');
             const entry = {
                 name: req.body.name.toLowerCase(),
-                card: req.body.numer + '_of_' + req.body.suit
+                card: req.body.number + '_of_' + req.body.suit
             };
             collection.insertOne(entry, (err, result) => {
                 if (err) {
