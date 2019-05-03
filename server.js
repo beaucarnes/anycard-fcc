@@ -22,7 +22,7 @@ app.post('/secret', (req, res) => {
                 name: req.body.name.toLowerCase(),
                 card: req.body.numer + '_of_' + req.body.suit
             };
-            collection.insert(entry, (err, result) => {
+            collection.insertOne(entry, (err, result) => {
                 if (err) {
                     console.log(err);
                 } else {
