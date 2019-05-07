@@ -6,6 +6,7 @@ const mongodb = require('mongodb');
 const MongoClient = mongodb.MongoClient;
 const URI = process.env.MONGODB_URI || 'mongodb://heroku_08879xmq:hh9bico0pvib5tumb1f6vsohj@ds257054.mlab.com:57054/heroku_08879xmq';
 const PORT = process.env.PORT || 5000;
+const DB_NAME = process.env.DB_NAME || 'heroku_08879xmq'
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
@@ -18,7 +19,7 @@ app.post('/secret', (req, res) => {
             console.log(err);
         } else {
             console.log(req.body)
-            const dbo = db.db("heroku_08879xmq");
+            const dbo = db.db(DB_NAME);
             const collection = dbo.collection('names');
             const entry = {
                 name: req.body.name.toLowerCase(),
@@ -44,7 +45,7 @@ app.get('/:param*', (req, res) => {
         if (err) {
             console.log(err);
         } else {
-            const dbo = db.db("mydb");
+            const dbo = db.db(DB_NAME);
             const collection = dbo.collection('names');
 
             if (name === 'deleteall') {
