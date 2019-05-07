@@ -18,7 +18,7 @@ app.post('/secret', (req, res) => {
             console.log(err);
         } else {
             console.log(req.body)
-            const dbo = db.db("mydb");
+            const dbo = db.db("heroku_08879xmq");
             const collection = dbo.collection('names');
             const entry = {
                 name: req.body.name.toLowerCase(),
